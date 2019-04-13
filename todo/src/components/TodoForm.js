@@ -1,36 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addText } from '../actions/';
+import { addText, clearText } from '../actions/';
 
 class TodoForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inputValue: ''
-        };
-    }
+    state = {
+        inputValue: ''
+    };
 
-    inputHandler = e => {
+    handleInput = e => {
         this.setState({
             inputValue: e.target.value
         });
     };
 
-    addHandler = e => {
+    handleAdd = e => {
         e.preventDefault();
         this.props.addText(this.state.inputValue);
+        this.setState({ inputValue: '' });
+    };
+
+    handleClear = () => {
+        this.props.clearText();
     };
 
     render() {
         return (
             <div>
                 <input
-                    placeholder="enter todo"
+                    placeholder="...what would you like to do?"
                     value={this.state.inputValue}
-                    onChange={this.inputHandler}
+                    onChange={this.handleInput}
                 />
-                <button onClick={this.addHandler}>Add Todo</button>
-                <button>Clear Todo</button>
+                <button onClick={this.handleAdd}>Add Todo</button>
+                <button onClick={this.handleClear}>Clear Todo</button>
             </div>
         );
     }
@@ -38,5 +40,5 @@ class TodoForm extends React.Component {
 
 export default connect(
     () => ({}),
-    { addText }
+    { addText, clearText }
 )(TodoForm);

@@ -1,3 +1,5 @@
+import { ADD, COMPLETE, CLEAR } from '../actions'
+
 const initialState = {
     todos: [
         {
@@ -15,7 +17,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD':
+        case ADD:
             return {
                 todos: [
                     ...state.todos,
@@ -26,6 +28,17 @@ const reducer = (state = initialState, action) => {
                     }
                 ]
             }
+        case CLEAR:
+            return {
+                todos: []
+            }
+        case COMPLETE:
+            const todoID = state.todos.map( todo => {
+                return todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+            })
+                return {
+                    todos: [ ...todoID ]
+                }
         default:
             return state;
     }
